@@ -1,0 +1,28 @@
+{
+  "name": "dev-matching-2020-01",
+  "version": "1.0.0",
+  "description": "[과제 링크](https://programmers.co.kr/skill_check_assignments/4)",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server . -c-1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/woriwori/dev-matching-2020-01.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/woriwori/dev-matching-2020-01/issues"
+  },
+  "homepage": "https://github.com/woriwori/dev-matching-2020-01#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-jest": "^25.1.0",
+    "http-server": "^0.12.0",
+    "jest": "^24.9.0"
+  }
+}
