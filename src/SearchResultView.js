@@ -32,7 +32,7 @@ export default class SearchResultView {
       this.$searchResult.innerHTML = this.getConvertedDataToHTML(data);
       this.$searchResult.querySelectorAll(".item").forEach(($item, index) => {
         $item.addEventListener("click", () => {
-          this.onClick(this.data[index]);
+          this.onClick(data[index]);
         });
       });
     }
