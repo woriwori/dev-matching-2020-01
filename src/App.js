@@ -1,57 +1,52 @@
-console.log("app is running!");
-import DarkModeCheckBox from './DarkModeCheckBox.js';
-import SearchInput from './SearchInput.js';
-import SearchResult from './SearchResult.js';
-import ImageInfo from './ImageInfo.js';
+// utils
+import { getElement } from "./utils/domHelper.js";
+import storage from "./utils/storage.js";
+import api from "./api.js";
 
-import domHelper from './utils/domHelper.js';
-import storageHelper from './utils/storageHelper.js';
-
-import api from './api.js';
+// component
+import DarkModeCheckBox from "./DarkModeCheckBox.js";
+import SearchInput from "./SearchInput.js";
+import SearchResultView from "./SearchResultView.js";
+import ImageInfo from "./ImageInfo.js";
 
 export default class App {
-    data = storageHelper.get('searchResults') || [];
+  searchResults = storage.get("searchResults") || [];
 
-    constructor($target) {
-        this.$app = $target;
-        this.$header = domHelper.getElement('tag', 'header');
-        this.$main = domHelper.getElement('tag', 'main');
+  constructor($target) {
+    this.$app = $target;
+    this.$header = getElement("tag", "header");
+    this.$main = getElement("tag", "main");
 
-        this.darkModeCheckBox = new DarkModeCheckBox({
-            $target: this.$header
+    this.darkModeCheckBox = new DarkModeCheckBox({
+      $target: this.$header,
+    });
+
+    this.searchInput = new SearchInput({
+      $target: this.$header,
+      onSearch: async (keyword) => {
+        const { data } = await api.fetchCats(keyword);
+        this.searchResults = data;
+        this.searchResultView.setState(data);
+      },
+    });
+
+    this.searchResultView = new SearchResultView({
+      $target: this.$main,
+      initialData: this.searchResults,
+      onClick: (image) => {
+        this.imageInfo.setState({
+          visible: true,
+          image,
         });
+      },
+    });
 
-        this.searchInput = new SearchInput({
-            $target: this.$header,
-            onSearch: async keyword => {
-                const result = await api.fetchCats(keyword);
-                this.setState(result.data);
-            }
-        });
-
-        this.searchResult = new SearchResult({
-            $target: this.$main,
-            initialData: this.data,
-            onClick: image => {
-                this.imageInfo.setState({
-                    visible: true,
-                    image
-                });
-            }
-        });
-
-        this.imageInfo = new ImageInfo({
-            $target: this.$app,
-            data: {
-                visible: false,
-                image: null
-            }
-        });
-    }
-
-    setState(nextData) {
-        console.log(this);
-        this.data = nextData;
-        this.searchResult.setState(nextData);
-    }
+    this.imageInfo = new ImageInfo({
+      $target: this.$app,
+      data: {
+        visible: false,
+        image: null,
+      },
+    });
+  }
 }
