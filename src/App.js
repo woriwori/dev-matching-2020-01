@@ -24,9 +24,9 @@ export default class App {
     this.searchInput = new SearchInput({
       $target: this.$header,
       onSearch: async (keyword) => {
-        const { data } = await api.fetchCats(keyword);
-        this.searchResults = data;
-        this.searchResultView.setState(data);
+        const response = await api.fetchCats(keyword);
+        this.searchResults = response.data;
+        this.searchResultView.setState(response.data);
       },
     });
 
